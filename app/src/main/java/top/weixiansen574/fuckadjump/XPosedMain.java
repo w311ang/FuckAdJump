@@ -53,6 +53,8 @@ public class XPosedMain implements IXposedHookLoadPackage {
         File file = new File("/storage/emulated/0/Android/data/" + packageName + "/files/", LOG_FILE_NAME);
         try (FileOutputStream fos = new FileOutputStream(file, true)) {
             fos.write((message + "\n").getBytes());
+        } catch (FileNotFoundException e) {
+            Log.e("[" + TAG + "] Error writing log to file", e);
         } catch (IOException e) {
             XposedBridge.log("[" + TAG + "] Error writing log to file", e);
         }
