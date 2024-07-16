@@ -29,7 +29,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 "currentActivityThread"
         );
         appContext = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
-        packageName = loadPackageParam.packageName
+        packageName = loadPackageParam.packageName;
 
         XposedBridge.log("h65");
         Log.d("fuckad", "hhubhj");
