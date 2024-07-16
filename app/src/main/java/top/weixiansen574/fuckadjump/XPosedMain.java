@@ -50,6 +50,10 @@ public class XPosedMain implements IXposedHookLoadPackage {
                     XposedBridge.log("已拦截跳转京东！");
                     param.args[0]= "";
                 }
+                if (arg.startsWith("openjd")){
+                    XposedBridge.log("已拦截跳转京东！");
+                    param.args[0]= "";
+                }
                 if (arg.startsWith("tbopen")){
                     XposedBridge.log("已拦截跳转淘宝！");
                     param.args[0]= "";
