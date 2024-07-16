@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -22,6 +24,8 @@ public class XPosedMain implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         packageName = loadPackageParam.packageName;
+        Logger logger = Logger.getLogger("MyLog");
+        logger.addHandler(new FileHandler("/storage/emulated/0/Android/data/" + packageName + "/files/" + LOG_FILE_NAME));
 
         XposedHelpers.findAndHookMethod(Uri.class,"parse",String.class, new XC_MethodHook() {
             @Override
@@ -30,7 +34,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 String arg = (String) param.args[0];
 
                 Log.e(TAG, arg);
-                logToFile(arg);
+                logger.info(arg);
 
                 if (arg == null){
                     return;
