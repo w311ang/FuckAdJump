@@ -22,9 +22,8 @@ public class XPosedMain implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         String LOG_PATH = "/storage/emulated/0/Android/data/" + loadPackageParam.packageName + "/files/" + LOG_FILE_NAME;
         Boolean LOG_ENABLED = (new File(LOG_PATH)).exists();
-        Logger logger;
+        Logger logger = Logger.getLogger(TAG);
         if (LOG_ENABLED) {
-            logger = Logger.getLogger(TAG);
             FileHandler fh = new FileHandler(LOG_PATH);
             logger.addHandler(fh);
             fh.setFormatter(new SimpleFormatter());
