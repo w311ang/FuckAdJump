@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.webkit.WebView;
+import android.util.Log;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -15,6 +16,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         XposedBridge.log("h65");
+        Log.d("fuckad", "hhubhj");
         // 拦截Uri.parse方法
         XposedHelpers.findAndHookMethod(Uri.class, "parse", String.class, new XC_MethodHook() {
             @Override
@@ -23,6 +25,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 String arg = (String) param.args[0];
 
                 XposedBridge.log("hiii");
+                Log.d("fuckad", "hhuj");
                 XposedBridge.log(arg);
 
                 if (arg == null) {
