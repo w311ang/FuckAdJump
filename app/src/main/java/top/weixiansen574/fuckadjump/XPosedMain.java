@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -21,8 +22,9 @@ public class XPosedMain implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         String LOG_PATH = "/storage/emulated/0/Android/data/" + loadPackageParam.packageName + "/files/" + LOG_FILE_NAME;
         Boolean LOG_ENABLED = (new File(LOG_PATH)).exists();
+        Logger logger
         if (LOG_ENABLED) {
-            Logger logger = Logger.getLogger(TAG);
+            logger = Logger.getLogger(TAG);
             FileHandler fh = new FileHandler(LOG_PATH);
             logger.addHandler(fh);
             fh.setFormatter(new SimpleFormatter());
