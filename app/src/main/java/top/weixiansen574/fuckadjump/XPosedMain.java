@@ -17,6 +17,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XPosedMain implements IXposedHookLoadPackage {
+    private static final String TAG = "XPosedMain";
     private static final String LOG_FILE_NAME = "hook_log.txt";
     private Context appContext;
 
