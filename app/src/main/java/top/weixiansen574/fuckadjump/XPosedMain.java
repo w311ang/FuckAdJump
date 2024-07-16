@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -54,7 +55,6 @@ public class XPosedMain implements IXposedHookLoadPackage {
         try (FileOutputStream fos = new FileOutputStream(file, true)) {
             fos.write((message + "\n").getBytes());
         } catch (FileNotFoundException e) {
-            Log.e("[" + TAG + "] Error writing log to file", e);
         } catch (IOException e) {
             XposedBridge.log("[" + TAG + "] Error writing log to file", e);
         }
