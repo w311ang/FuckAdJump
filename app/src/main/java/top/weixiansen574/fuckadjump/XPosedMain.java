@@ -17,6 +17,8 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 super.beforeHookedMethod(param);
                 String arg = (String) param.args[0];
 
+                XposedBridge.log(arg);
+
                 if (arg == null){
                     return;
                 }
