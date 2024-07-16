@@ -23,7 +23,9 @@ public class XPosedMain implements IXposedHookLoadPackage {
         Boolean LOG_ENABLED = (new File(LOG_PATH)).exists();
         if (LOG_ENABLED) {
             Logger logger = Logger.getLogger(TAG);
-            logger.addHandler(new FileHandler(LOG_PATH));
+            FileHandler fh = new FileHandler(LOG_PATH);
+            logger.addHandler(fh);
+            fh.setFormatter(new SimpleFormatter());
         }
 
         XposedHelpers.findAndHookMethod(Uri.class,"parse",String.class, new XC_MethodHook() {
