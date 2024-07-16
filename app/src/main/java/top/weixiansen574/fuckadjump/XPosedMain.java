@@ -20,6 +20,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
     private static final String TAG = "XPosedMain";
     private static final String LOG_FILE_NAME = "hook_log.txt";
     private Context appContext;
+    private String packageName;
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
