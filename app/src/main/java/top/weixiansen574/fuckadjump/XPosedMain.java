@@ -14,7 +14,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class XPosedMain implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        XposedBridge.log('h65');
+        XposedBridge.log("h65");
         // 拦截Uri.parse方法
         XposedHelpers.findAndHookMethod(Uri.class, "parse", String.class, new XC_MethodHook() {
             @Override
@@ -22,7 +22,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 super.beforeHookedMethod(param);
                 String arg = (String) param.args[0];
 
-                XposedBridge.log('hiii');
+                XposedBridge.log("hiii");
                 XposedBridge.log(arg);
 
                 if (arg == null) {
