@@ -19,8 +19,12 @@ public class XPosedMain implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        Logger logger = Logger.getLogger(TAG);
-        logger.addHandler(new FileHandler("/storage/emulated/0/Android/data/" + loadPackageParam.packageName + "/files/" + LOG_FILE_NAME));
+        String LOG_PATH = "/storage/emulated/0/Android/data/" + loadPackageParam.packageName + "/files/" + LOG_FILE_NAME;
+        Boolean LOG_ENABLED = (new File(LOG_PATH)).exists();
+        if (LOG_ENABLED) {
+            Logger logger = Logger.getLogger(TAG);
+            logger.addHandler(new FileHandler(LOG_PATH));
+        }
 
         XposedHelpers.findAndHookMethod(Uri.class,"parse",String.class, new XC_MethodHook() {
             @Override
@@ -29,7 +33,9 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 String arg = (String) param.args[0];
 
                 Log.e(TAG, arg);
-                logger.info(arg);
+                if (LOG_ENABLED) {
+                    logger.info(arg);
+                }
 
                 if (arg == null){
                     return;
