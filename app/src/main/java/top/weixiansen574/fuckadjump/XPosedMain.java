@@ -4,9 +4,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -19,13 +16,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class XPosedMain implements IXposedHookLoadPackage {
     private static final String TAG = "FuckAdJump";
     private static final String LOG_FILE_NAME = "FuckAdJump.log";
-    private String packageName;
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        packageName = loadPackageParam.packageName;
-        Logger logger = Logger.getLogger("MyLog");
-        logger.addHandler(new FileHandler("/storage/emulated/0/Android/data/" + packageName + "/files/" + LOG_FILE_NAME));
+        Logger logger = Logger.getLogger(TAG);
+        logger.addHandler(new FileHandler("/storage/emulated/0/Android/data/" + loadPackageParam.packageName + "/files/" + LOG_FILE_NAME));
 
         XposedHelpers.findAndHookMethod(Uri.class,"parse",String.class, new XC_MethodHook() {
             @Override
@@ -52,16 +47,5 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 }
             }
         });
-    }
-
-    private void logToFile(String message) {
-        File file = new File("/storage/emulated/0/Android/data/" + packageName + "/files/", LOG_FILE_NAME);
-        if (file.exists()) {
-            try (FileOutputStream fos = new FileOutputStream(file, true)) {
-                fos.write((message + "\n").getBytes());
-            } catch (IOException e) {
-                XposedBridge.log("[" + TAG + "] Error writing log to file\n" + e);
-            }
-        }
     }
 }
