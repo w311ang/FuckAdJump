@@ -29,6 +29,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 "currentActivityThread"
         );
         appContext = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
+        packageName = loadPackageParam.packageName
 
         XposedBridge.log("h65");
         Log.d("fuckad", "hhubhj");
@@ -104,7 +105,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
     }
 
     private void logToFile(String message) {
-        File file = new File("/storage/emulated/0/Android/data/", loadPackageParam.packageName, "files/", LOG_FILE_NAME);
+        File file = new File("/storage/emulated/0/Android/data/", packageName, "files/", LOG_FILE_NAME);
         try (FileOutputStream fos = new FileOutputStream(file, true)) {
             fos.write((message + "\n").getBytes());
         } catch (IOException e) {
