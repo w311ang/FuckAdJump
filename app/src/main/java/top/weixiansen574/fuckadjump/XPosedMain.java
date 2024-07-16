@@ -13,10 +13,21 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XPosedMain implements IXposedHookLoadPackage {
+    private static final String LOG_FILE_NAME = "hook_log.txt";
+    private Context appContext;
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
+        // 获取应用的上下文
+        Object activityThread = XposedHelpers.callStaticMethod(
+                XposedHelpers.findClass("android.app.ActivityThread", null),
+                "currentActivityThread"
+        );
+        appContext = (Context) XposedHelpers.callMethod(activityThread, "getSystemContext");
+
         XposedBridge.log("h65");
         Log.d("fuckad", "hhubhj");
+        logToFile("hhubhj");
         // 拦截Uri.parse方法
         XposedHelpers.findAndHookMethod(Uri.class, "parse", String.class, new XC_MethodHook() {
             @Override
@@ -26,6 +37,7 @@ public class XPosedMain implements IXposedHookLoadPackage {
 
                 XposedBridge.log("hiii");
                 Log.d("fuckad", "hhuj");
+                logToFile("hhubbhhj");
                 XposedBridge.log(arg);
 
                 if (arg == null) {
@@ -84,5 +96,14 @@ public class XPosedMain implements IXposedHookLoadPackage {
                 }
             }
         });
+    }
+
+    private void logToFile(String message) {
+        File file = new File(appContext.getExternalFilesDir(null), LOG_FILE_NAME);
+        try (FileOutputStream fos = new FileOutputStream(file, true)) {
+            fos.write((message + "\n").getBytes());
+        } catch (IOException e) {
+            Log.e(TAG, "Error writing log to file", e);
+        }
     }
 }
